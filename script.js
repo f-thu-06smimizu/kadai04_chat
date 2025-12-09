@@ -1,6 +1,7 @@
-// index.htmlでCDNを読み込んでいるため、ここではimportは使用しない
+// APIキーはGitHub公開のため、空（""）
 const firebaseConfig = {
-  apiKey: "AIzaSyBBDlMsMIfpzH6IDHFjLun4wbtkcdi_FSo",
+  // APIキーは削除済み想定
+  apiKey: "",
   authDomain: "gs-js03.firebaseapp.com",
   projectId: "gs-js03",
   storageBucket: "gs-js03.firebasestorage.app",
@@ -12,10 +13,9 @@ const firebaseConfig = {
 // CDN版のFirebase SDKの関数呼び出し形式
 const app = firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
-// ref(database, "chat_room_a") ではなく database.ref() を使用
 const dbRef = database.ref("chat_room_a");
 
-// タイムスタンプ整形関数
+// タイムスタンプ整形関数 
 function convertTimestampToDatetime(timestamp) {
   const _d = timestamp ? new Date(timestamp) : new Date();
   const Y = _d.getFullYear();
@@ -27,9 +27,9 @@ function convertTimestampToDatetime(timestamp) {
   return `${Y}/${m}/${d} ${H}:${i}:${s}`;
 }
 
-//　$(function() { ... }); で jQueryの実行タイミングを保証
+// $(function() { ... }); で jQueryの実行タイミングを保証
 $(function () {
-// メッセージ送信処理
+  // メッセージ送信処理
   $("#send").on("click", function () {
     const nameVal = $("#name").val();
     const textVal = $("#text").val();
@@ -39,10 +39,13 @@ $(function () {
       return;
     }
 
+    // 二重表示解消のためのIDを生成
+    const tempId = Date.now();
+
     // ローカル表示用の処理（送信直後の確認用）
-    const now = convertTimestampToDatetime(Date.now());
+    const now = convertTimestampToDatetime(tempId);
     const localHtml = `
-            <li style="opacity: 0.6; font-style: italic;">
+            <li class="temp-msg" data-temp-id="${tempId}" style="opacity: 0.6; font-style: italic;">
                 <span class="name">${nameVal}</span>
                 <span class="text">${textVal}</span>
                 <span class="datetime">${now} (送信中...)</span>
@@ -54,12 +57,13 @@ $(function () {
     const postData = {
       name: nameVal,
       text: textVal,
+      // ローカル表示と紐付けるためのIDをFirebaseにも送る
+      tempId: tempId,
       // serverTimestamp() は firebase.database.ServerValue.TIMESTAMP に変更
       timestamp: firebase.database.ServerValue.TIMESTAMP,
     };
 
     // データをFirebaseにプッシュ
-    // push(dbRef, postData) から dbRef.push(postData) に変更
     dbRef.push(postData);
 
     $("#text").val("");
@@ -68,6 +72,12 @@ $(function () {
   // メッセージ受信と表示処理（リアルタイム監視）
   dbRef.on("child_added", function (data) {
     const item = data.val();
+
+    // 二重表示解消のための処理: 古いローカル表示要素の削除
+    // Firebaseから返されたtempIdを持つ要素を探して削除
+    if (item.tempId) {
+      $(`#output li[data-temp-id="${item.tempId}"]`).remove();
+    }
 
     // 時刻整形
     const datetime = item.timestamp
