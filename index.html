@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>初級チャットアプリ</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <h1>リアルタイム公開チャット</h1>
+
+    <form>
+      <fieldset>
+        <legend>メッセージ入力</legend>
+        <div>
+          ニックネーム:
+          <input type="text" id="name" value="名無しさん" maxlength="15" />
+        </div>
+        <div>メッセージ: <input type="text" id="text" /></div>
+        <div>
+          <button type="button" id="send">送信</button>
+        </div>
+      </fieldset>
+    </form>
+
+    <ul id="output"></ul>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database-compat.js"></script>
+    <script src="script.js"></script> 
+    
+  </body>
+</html>

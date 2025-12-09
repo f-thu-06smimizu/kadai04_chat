@@ -1,0 +1,109 @@
+/* 全体のスタイル設定 */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* 背景色: 非常に明るいオフホワイト */
+  background-color: #f7f9fc; 
+  color: #333; /* 基本の文字色を暗く */
+  padding: 30px;
+}
+h1 {
+  /* 見出しの強調色: クールなブルー */
+  color: #007bff; 
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+/* 入力フォームのスタイル */
+fieldset {
+  border: 1px solid #ddd; /* 枠線薄く */
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+  /* フォーム背景色 白 */
+  background-color: #ffffff; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* 影 */
+}
+input[type="text"] {
+  padding: 10px;
+  margin: 5px 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 95%;
+  /* 入力欄の背景と文字色 */
+  background-color: #fff; 
+  color: #333;
+  transition: border-color 0.3s;
+}
+input[type="text"]:focus {
+    border-color: #007bff; /* フォーカス時 ブルー */
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+button {
+  padding: 10px 20px;
+  /* ボタンの基本色: ブルー */
+  background-color: #007bff; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+  font-weight: 500;
+}
+button:hover {
+  background-color: #0056b3; /* ホバーで少し暗く */
+}
+button:active {
+    transform: translateY(1px); /* クリック時に少し沈む */
+}
+
+/* メッセージリストのスタイル */
+#output {
+  list-style: none;
+  padding: 0;
+}
+#output li {
+  /* メッセージの背景色: 白 */
+  background: #ffffff; 
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 12px;
+  /* 少し目立つ影 */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); 
+  animation: fadeIn 0.5s ease-out;
+  border-left: 4px solid #007bff; /* クールなアクセントライン */
+}
+/* 投稿者名と日時のスタイル */
+#output .name {
+  font-weight: bold;
+  /* 投稿者名の色: ブルー */
+  color: #007bff; 
+  margin-right: 15px;
+  font-size: 1.1em;
+}
+#output .text {
+  display: block;
+  margin-top: 8px;
+  word-wrap: break-word;
+  color: #333; 
+}
+#output .datetime {
+  font-size: 0.75em;
+  color: #888; /* グレー */
+  text-align: right;
+  display: block;
+  margin-top: 5px;
+}
+
+/* フェードインアニメーションの定義 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
